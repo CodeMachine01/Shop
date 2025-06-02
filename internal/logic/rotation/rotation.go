@@ -2,6 +2,8 @@ package content
 
 import (
 	"context"
+	"github.com/gogf/gf/v2/database/gdb"
+	"github.com/gogf/gf/v2/frame/g"
 
 	"Shop/internal/dao"
 	"Shop/internal/model"
@@ -28,4 +30,15 @@ func (s *sRotation) Create(ctx context.Context, in model.RotationCreateInput) (o
 		return out, err
 	}
 	return model.RotationCreateOutput{RotationId: int(lastInsertID)}, err
+}
+
+// Delete 删除
+func (s *sRotation) Delete(ctx context.Context, id int) error {
+	return dao.RotationInfo.Transaction(ctx, func(ctx context.Context, tx *gdb.TX) error {
+		// 删除内容
+		_, err := dao.RotationInfo.Ctx(ctx).Where(g.Map{
+			dao.RotationInfo.Columns().Id: id,
+		}).Unscoped().Delete()
+		return err
+	})
 }
