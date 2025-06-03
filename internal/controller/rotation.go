@@ -41,5 +41,5 @@ func (a *cRotation) Update(ctx context.Context, req *backend.RotationUpdateReq) 
 			Sort:   req.Sort,
 		},
 	})
-	return
+	return &backend.RotationUpdateRes{Id: req.Id}, nil
 }
