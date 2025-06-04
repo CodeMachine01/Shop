@@ -8,53 +8,54 @@ import (
 	"Shop/internal/service"
 )
 
-// Rotation 内容管理
-var Rotation = cRotation{}
+// Admin 内容管理
+var Admin = cAdmin{}
 
-type cRotation struct{}
+type cAdmin struct{}
 
-func (a *cRotation) Create(ctx context.Context, req *backend.RotationReq) (res *backend.RotationRes, err error) {
-	out, err := service.Rotation().Create(ctx, model.RotationCreateInput{
-		RotationCreateUpdateBase: model.RotationCreateUpdateBase{
-			PicUrl: req.PicUrl,
-			Link:   req.Link,
-			Sort:   req.Sort,
+func (a *cAdmin) Create(ctx context.Context, req *backend.AdminReq) (res *backend.AdminRes, err error) {
+	out, err := service.Admin().Create(ctx, model.AdminCreateInput{
+		AdminCreateUpdateBase: model.AdminCreateUpdateBase{
+			Name:     req.Name,
+			Password: req.Password,
+			RoleIds:  req.RoleIds,
+			IsAdmin:  req.IsAdmin,
 		},
 	})
 	if err != nil {
 		return nil, err
 	}
-	return &backend.RotationRes{RotationId: out.RotationId}, nil
+	return &backend.AdminRes{AdminId: out.AdminId}, nil
 }
 
-func (a *cRotation) Delete(ctx context.Context, req *backend.RotationDeleteReq) (res *backend.RotationDeleteRes, err error) {
-	err = service.Rotation().Delete(ctx, req.Id)
+func (a *cAdmin) Delete(ctx context.Context, req *backend.AdminDeleteReq) (res *backend.AdminDeleteRes, err error) {
+	err = service.Admin().Delete(ctx, req.Id)
 	return
 }
 
-func (a *cRotation) Update(ctx context.Context, req *backend.RotationUpdateReq) (res *backend.RotationUpdateRes, err error) {
-	err = service.Rotation().Update(ctx, model.RotationUpdateInput{
+func (a *cAdmin) Update(ctx context.Context, req *backend.AdminUpdateReq) (res *backend.AdminUpdateRes, err error) {
+	err = service.Admin().Update(ctx, model.AdminUpdateInput{
 		Id: req.Id,
-		RotationCreateUpdateBase: model.RotationCreateUpdateBase{
-			PicUrl: req.PicUrl,
-			Link:   req.Link,
-			Sort:   req.Sort,
+		AdminCreateUpdateBase: model.AdminCreateUpdateBase{
+			Name:     req.Name,
+			Password: req.Password,
+			RoleIds:  req.RoleIds,
+			IsAdmin:  req.IsAdmin,
 		},
 	})
-	return &backend.RotationUpdateRes{Id: req.Id}, nil
+	return &backend.AdminUpdateRes{Id: req.Id}, nil
 }
 
 // Index rotation list
-func (a *cRotation) Index(ctx context.Context, req *backend.RotationGetListCommonReq) (res *backend.RotationGetListCommonRes, err error) {
-	getListRes, err := service.Rotation().GetList(ctx, model.RotationGetListInput{
+func (a *cAdmin) Index(ctx context.Context, req *backend.AdminGetListCommonReq) (res *backend.AdminGetListCommonRes, err error) {
+	getListRes, err := service.Admin().GetList(ctx, model.AdminGetListInput{
 		Page: req.Page,
 		Size: req.Size,
-		Sort: req.Sort,
 	})
 	if err != nil {
 		return nil, err
 	}
-	return &backend.RotationGetListCommonRes{List: getListRes.List,
+	return &backend.AdminGetListCommonRes{List: getListRes.List,
 		Page:  getListRes.Page,
 		Size:  getListRes.Size,
 		Total: getListRes.Total}, nil
