@@ -6,6 +6,10 @@ package logic
 
 import (
 	_ "Shop/internal/logic/admin"
+	_ "Shop/internal/logic/bizctx"
+	_ "Shop/internal/logic/login"
+	_ "Shop/internal/logic/middleware"
 	_ "Shop/internal/logic/position"
 	_ "Shop/internal/logic/rotation"
+	_ "Shop/internal/logic/session"
 )
