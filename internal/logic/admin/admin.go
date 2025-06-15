@@ -11,6 +11,7 @@ import (
 	"github.com/gogf/gf/v2/encoding/ghtml"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/util/grand"
+	"github.com/gogf/gf/v2/util/gutil"
 )
 
 type sAdmin struct{}
@@ -107,4 +108,30 @@ func (s *sAdmin) GetList(ctx context.Context, in model.AdminGetListInput) (out *
 		return out, err
 	}
 	return
+}
+
+func (s *sAdmin) GetAdminByNamePassword(ctx context.Context, in model.UserLoginInput) map[string]interface{} {
+	//todo 对接DB
+	//if in.Name == "admin" && in.Password == "admin" {
+	//	return g.Map{
+	//		"id":       1,
+	//		"username": "admin",
+	//	}
+	//}
+
+	//验证密码是否正确
+	adminInfo := entity.AdminInfo{}
+	err := dao.AdminInfo.Ctx(ctx).Where("name", in.Name).Scan(&adminInfo)
+	if err != nil {
+		return nil
+	}
+	gutil.Dump("加密后的密码", utility.EncryptPassword(in.Name, adminInfo.UserSalt))
+	if utility.EncryptPassword(in.Password, adminInfo.UserSalt) != adminInfo.Password {
+		return nil
+	} else {
+		return g.Map{
+			"id":       adminInfo.Id,
+			"username": adminInfo.Name,
+		}
+	}
 }

@@ -3,6 +3,7 @@ package controller
 import (
 	"Shop/api/backend"
 	"context"
+	"github.com/gogf/gf/v2/util/gconv"
 
 	"Shop/internal/model"
 	"Shop/internal/service"
@@ -47,7 +48,7 @@ func (a *cAdmin) Update(ctx context.Context, req *backend.AdminUpdateReq) (res *
 }
 
 // Index rotation list
-func (a *cAdmin) Index(ctx context.Context, req *backend.AdminGetListCommonReq) (res *backend.AdminGetListCommonRes, err error) {
+func (a *cAdmin) List(ctx context.Context, req *backend.AdminGetListCommonReq) (res *backend.AdminGetListCommonRes, err error) {
 	getListRes, err := service.Admin().GetList(ctx, model.AdminGetListInput{
 		Page: req.Page,
 		Size: req.Size,
@@ -59,4 +60,12 @@ func (a *cAdmin) Index(ctx context.Context, req *backend.AdminGetListCommonReq) 
 		Page:  getListRes.Page,
 		Size:  getListRes.Size,
 		Total: getListRes.Total}, nil
+}
+
+func (c *cAdmin) Info(ctx context.Context, req *backend.AdminGetInfoReq) (res *backend.AdminGetInfoRes, err error) {
+	return &backend.AdminGetInfoRes{
+		Id:          gconv.Int(service.Auth().GetIdentity(ctx)),
+		IdentityKey: service.Auth().IdentityKey,
+		Payload:     service.Auth().GetPayload(ctx),
+	}, nil
 }
