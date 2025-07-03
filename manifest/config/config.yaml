@@ -20,3 +20,12 @@ database:
     link:   "mysql:root:123456@tcp(127.0.0.1:3306)/my_shop"
     debug:  true
 
+
+# Redis 配置示例
+redis:
+  # 单实例配置示例1
+  default:
+    address: 127.0.0.1:6379
+    db:          1
+    pass:        123456
+    idleTimeout: 600

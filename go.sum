@@ -37,6 +37,7 @@ github.com/go-sql-driver/mysql v1.6.0/go.mod h1:DCzpHaOWr8IXmIStZouvnhqoel9Qv2LB
 github.com/go-sql-driver/mysql v1.7.1 h1:lUIinVbN1DY0xBg0eMOzmmtGoHwWBbvnWubQUrtU8EI=
 github.com/go-sql-driver/mysql v1.7.1/go.mod h1:OXbVy3sEdcQ2Doequ6Z5BW6fXNQTmx+9S1MCJN5yJMI=
 github.com/go-task/slim-sprig v0.0.0-20210107165309-348f09dbbbc0/go.mod h1:fyg7847qk6SyHyPtNmDHnmrv/HOrqktSC+C9fM+CJOE=
+github.com/goflyfox/gtoken v1.5.7 h1:j5SW7g1T74PhNQtw94R97YVM/xbebylU0KxmRX2CPzw=
 github.com/goflyfox/gtoken v1.5.7/go.mod h1:P11Sw6eMekGBh8JWoBeQKVGphZRu7R5V5PAsV0U0tJI=
 github.com/gogf/gf-jwt/v2 v2.1.0 h1:79/KH6vo3IAtHTvRubE8/NXKDF6/UisItLVpdsTTIjE=
 github.com/gogf/gf-jwt/v2 v2.1.0/go.mod h1:AGEJOkG64G8ZYOi50ObYgJ+D7L3W4GcTW65m6VVGbmI=
