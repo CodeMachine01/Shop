@@ -28,7 +28,7 @@ var (
 		Func: func(ctx context.Context, parser *gcmd.Parser) (err error) {
 			s := g.Server()
 			// 启动gtoken
-			gfToken := &gtoken.GfToken{
+			gfAdminToken := &gtoken.GfToken{
 				ServerName:       "shop",
 				CacheMode:        2, //gredis
 				LoginPath:        "/backend/login",
@@ -47,11 +47,11 @@ var (
 					service.Middleware().Ctx,
 					service.Middleware().ResponseHandler,
 				)
-				//gtoken中间件绑定
-				err := gfToken.Middleware(ctx, group)
-				if err != nil {
-					panic(err)
-				}
+				////gtoken中间件绑定
+				//err := gfToken.Middleware(ctx, group)
+				//if err != nil {
+				//	panic(err)
+				//}
 				group.Bind(
 					controller.Hello,        //示例
 					controller.Rotation,     //轮播图
@@ -61,10 +61,15 @@ var (
 					controller.Admin.Delete, //管理员
 					controller.Admin.List,   //管理员
 					controller.Login,        //登录
+					controller.Data,         //输出大屏
 				)
 				// Special handler that needs authentication.
 				group.Group("/", func(group *ghttp.RouterGroup) {
 					//group.Middleware(service.Middleware().Auth)	//for gwt
+					err := gfAdminToken.Middleware(ctx, group)
+					if err != nil {
+						panic(err)
+					}
 					group.ALLMap(g.Map{
 						"/backend/admin/info": controller.Admin.Info,
 					})

@@ -283,10 +283,10 @@ func CreateLogSn(prefix string) string {
 }
 
 // 获取随机整数
-func RandInt(max int) int {
-	rand.Seed(time.Now().UnixNano())
-	return rand.Intn(max)
-}
+//func RandInt(max int) int {
+//	rand.Seed(time.Now().UnixNano())
+//	return rand.Intn(max)
+//}
 
 //获取今天的开始时间 0点
 //gtime.New(time.Now()).StartOfDay()
@@ -330,4 +330,12 @@ func GetRefundNum() (number string) {
 	rand.Seed(time.Now().UnixNano())
 	number = "refund" + gconv.String(time.Now().UnixNano()) + gconv.String(rand.Intn(1000))
 	return
+}
+
+// 获取随机数
+func RandInt(max int) int {
+	//rand.Seed(time.Now().UnixNano())
+	//return rand.Intn(max)
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	return r.Intn(max)
 }
