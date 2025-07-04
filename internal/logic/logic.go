@@ -11,6 +11,7 @@ import (
 	_ "Shop/internal/logic/login"
 	_ "Shop/internal/logic/middleware"
 	_ "Shop/internal/logic/position"
+	_ "Shop/internal/logic/role"
 	_ "Shop/internal/logic/rotation"
 	_ "Shop/internal/logic/session"
 )
