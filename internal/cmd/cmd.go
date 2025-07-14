@@ -57,7 +57,7 @@ var (
 					controller.Rotation,     //轮播图
 					controller.Position,     //手工位
 					controller.Admin.Create, //管理员
-					controller.Admin.Update, //理员
+					controller.Admin.Update, //管理员
 					controller.Admin.Delete, //管理员
 					controller.Admin.List,   //管理员
 					controller.Login,        //登录
@@ -75,6 +75,9 @@ var (
 					group.ALLMap(g.Map{
 						"/backend/admin/info": controller.Admin.Info,
 					})
+					group.Bind(
+						controller.File,
+					)
 				})
 			})
 			s.Run()

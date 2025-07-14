@@ -29,3 +29,8 @@ redis:
     db:          1
     pass:        123456
     idleTimeout: 600
+
+#qiniu:
+
+upload:
+  path: "upload"
