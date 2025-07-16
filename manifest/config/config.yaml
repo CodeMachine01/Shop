@@ -30,7 +30,11 @@ redis:
     pass:        123456
     idleTimeout: 600
 
-#qiniu:
+qiniu:
+  bucket: "codemachine02"
+  accessKey: "ov0gTZpYeikOgGllrF00_FrrTCI92AJsF9eRliCi"
+  secretKey: "_xxSBxG_gHbLRVUz9jl6eLerVSBfjPSs0-b-Gm7y"
+  url: "http://szhzan2pz.hn-bkt.clouddn.com/"
 
 upload:
   path: "upload"
