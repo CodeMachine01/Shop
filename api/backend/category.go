@@ -39,7 +39,7 @@ type CategoryUpdateRes struct {
 }
 
 type CategoryGetListCommonReq struct {
-	g.Meta `path:"/category/list" method:"get" tags:"商品分类" summary:"查询商品分类列表接口"`
+	g.Meta `path:"/category/list" method:"get" tags:"商品分类" summary:"商品分类列表接口"`
 	Sort   int `json:"sort"   in:"query" dc:"排序类型"`
 	CommonPaginationReq
 }
@@ -49,5 +49,14 @@ type CategoryGetListCommonRes struct {
 	List  interface{} `json:"list" description:"列表"`
 	Page  int         `json:"page" description:"分页码"`
 	Size  int         `json:"size" description:"分页数量"`
+	Total int         `json:"total" description:"数据总数"`
+}
+
+type CategoryGetListAllCommonReq struct {
+	g.Meta `path:"/category/list/all" method:"get" tags:"商品分类" summary:"商品分类全部列表接口"`
+	Sort   int `json:"sort"   in:"query" dc:"排序类型"`
+}
+type CategoryGetListAllCommonRes struct {
+	List  interface{} `json:"list" description:"列表"`
 	Total int         `json:"total" description:"数据总数"`
 }
