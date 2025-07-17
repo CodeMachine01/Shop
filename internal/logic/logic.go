@@ -7,6 +7,7 @@ package logic
 import (
 	_ "Shop/internal/logic/admin"
 	_ "Shop/internal/logic/bizctx"
+	_ "Shop/internal/logic/category"
 	_ "Shop/internal/logic/data"
 	_ "Shop/internal/logic/file"
 	_ "Shop/internal/logic/login"
