@@ -36,7 +36,7 @@ type CouponUpdateRes struct {
 }
 
 type CouponGetListCommonReq struct {
-	g.Meta `path:"/coupon/list" method:"get" tags:"优惠券" summary:"优惠券列表接口"`
+	g.Meta `path:"/coupon/list" method:"get" tags:"优惠券" summary:"查询优惠券列表"`
 	Sort   int `json:"sort"   in:"query" dc:"排序类型"`
 	CommonPaginationReq
 }
@@ -50,7 +50,7 @@ type CouponGetListCommonRes struct {
 }
 
 type CouponGetListAllCommonReq struct {
-	g.Meta `path:"/coupon/list/all" method:"get" tags:"优惠券" summary:"优惠券全部列表接口"`
+	g.Meta `path:"/coupon/list/all" method:"get" tags:"优惠券" summary:"查询优惠券全部列表"`
 	Sort   int `json:"sort"   in:"query" dc:"排序类型"`
 }
 type CouponGetListAllCommonRes struct {

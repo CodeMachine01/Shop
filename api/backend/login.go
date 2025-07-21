@@ -6,23 +6,24 @@ import (
 	"time"
 )
 
-type LoginIndexRes struct {
-	g.Meta `mime:"text/html" type:"string" example:"<html/>"`
-}
+//type LoginIndexRes struct {
+//	g.Meta `mime:"text/html" type:"string" example:"<html/>"`
+//}
 
 type LoginDoReq struct {
-	g.Meta   `path:"/login" method:"post" summary:"执行登录请求" tags:"登录"`
+	//g.Meta   `path:"/login" method:"post" tags:"登录" summary:"登录" `
 	Name     string `json:"name" v:"required#请输入账号"   dc:"账号"`
 	Password string `json:"password" v:"required#请输入密码"   dc:"密码(明文)"`
 }
 
-// for jwt
-type LoginDoRes struct {
-	//Info interface{} `json:"info"`
-	//Referer string `json:"referer" dc:"引导客户端跳转地址"`
-	Token  string    `json:"token"`
-	Expire time.Time `json:"expire"`
-}
+//
+//// for jwt
+//type LoginDoRes struct {
+//	//Info interface{} `json:"info"`
+//	//Referer string `json:"referer" dc:"引导客户端跳转地址"`
+//	Token  string    `json:"token"`
+//	Expire time.Time `json:"expire"`
+//}
 
 // for gtoken
 type LoginRes struct {
@@ -35,7 +36,7 @@ type LoginRes struct {
 }
 
 type RefreshTokenReq struct {
-	g.Meta `path:"/refresh_token" method:"post"`
+	g.Meta `path:"/refresh_token" method:"post" tags:"登录" summary:"刷新、续签"`
 }
 
 type RefreshTokenRes struct {
@@ -44,7 +45,7 @@ type RefreshTokenRes struct {
 }
 
 type LogoutReq struct {
-	g.Meta `path:"/logout" method:"post"`
+	g.Meta `path:"/logout" method:"post" tags:"登录" summary:"退出"`
 }
 
 type LogoutRes struct {

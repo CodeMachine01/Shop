@@ -34,7 +34,6 @@ func StartBackendGToken() (gfAdminToken *gtoken.GfToken, err error) {
 	return
 }
 
-// todo 迁移到合适的位置
 func loginFunc(r *ghttp.Request) (string, interface{}) {
 	name := r.Get("name").String()
 	password := r.Get("password").String()
@@ -62,7 +61,6 @@ func loginFunc(r *ghttp.Request) (string, interface{}) {
 
 }
 
-// todo 迁移到合适的位置
 // 自定义登录之后的函数
 func loginAfterFunc(r *ghttp.Request, respData gtoken.Resp) {
 	if !respData.Success() {
