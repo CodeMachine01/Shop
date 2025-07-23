@@ -66,6 +66,8 @@ var (
 					)
 				})
 			})
+			//----------------------分割线----------------------------
+			//启动前台项目gtoken
 			frontendToken, err := StartFrontendGToken()
 			if err != nil {
 				return err
@@ -88,7 +90,9 @@ var (
 						return
 					}
 					//需要登录鉴权的接口
-					group.Bind()
+					group.Bind(
+						controller.User.Info, //当前登录用户的信息
+					)
 				})
 
 			})
