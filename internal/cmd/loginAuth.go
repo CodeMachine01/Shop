@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"Shop/api/backend"
+	"Shop/api/frontend"
 	"Shop/internal/consts"
 	"Shop/internal/dao"
 	"Shop/internal/model/entity"
@@ -30,7 +31,27 @@ func StartBackendGToken() (gfAdminToken *gtoken.GfToken, err error) {
 		MultiLogin:       consts.MultiLogin,
 		AuthAfterFunc:    authAfterFunc,
 	}
+	//todo 去掉全局校验，只用cmd中的路由组校验
 	err = gfAdminToken.Start()
+	return
+}
+
+// 前台登录gotoken相关
+func StartFrontendGToken() (gfFrontendToken *gtoken.GfToken, err error) {
+	gfFrontendToken = &gtoken.GfToken{
+		ServerName:      consts.BackendServerName,
+		CacheMode:       consts.CacheModeRedis, //gredis
+		LoginPath:       "/login",
+		LoginBeforeFunc: loginFuncFrontend,
+		LoginAfterFunc:  loginAfterFuncFrontend,
+		LogoutPath:      "/user/logout",
+		//AuthPaths:        g.SliceStr{"/admin/info"},
+		//AuthExcludePaths: g.SliceStr{"/user/info", "/system/user/info"}, // 不拦截路径 /user/info,/system/user/info,/system/user,
+		MultiLogin:    consts.FrontendMultiLogin, //是否支持多端登录
+		AuthAfterFunc: authAfterFunc,
+	}
+	//todo 去掉全局校验，只用cmd中的路由组校验
+	//err = gfAdminToken.Start()
 	return
 }
 
@@ -58,6 +79,32 @@ func loginFunc(r *ghttp.Request) (string, interface{}) {
 
 	// 唯一标识，扩展参数user data
 	return consts.GtokenAdminPrefix + strconv.Itoa(adminInfo.Id), adminInfo
+
+}
+
+// for 前台项目
+func loginFuncFrontend(r *ghttp.Request) (string, interface{}) {
+	name := r.Get("name").String()
+	password := r.Get("password").String()
+	ctx := context.TODO()
+	if name == "" || password == "" {
+		r.Response.WriteJson(gtoken.Fail(consts.ErrLoginFaulMSg))
+		r.ExitAll()
+	}
+
+	//验证密码是否正确
+	userInfo := entity.UserInfo{}
+	err := dao.UserInfo.Ctx(ctx).Where(dao.UserInfo.Columns().Name, name).Scan(&userInfo)
+	if err != nil {
+		r.Response.WriteJson(gtoken.Fail(consts.ErrLoginFaulMSg))
+		r.ExitAll()
+	}
+	if utility.EncryptPassword(password, userInfo.UserSalt) != userInfo.Password {
+		r.Response.WriteJson(gtoken.Fail(consts.ErrLoginFaulMSg))
+		r.ExitAll()
+	}
+	// 唯一标识，扩展参数user data
+	return consts.GtokenFrontendPrefix + strconv.Itoa(userInfo.Id), userInfo
 
 }
 
@@ -97,12 +144,45 @@ func loginAfterFunc(r *ghttp.Request, respData gtoken.Resp) {
 			return
 		}
 		data := &backend.LoginRes{
-			Type:        "Bearer",
+			Type:        consts.TokenType,
 			Token:       respData.GetString("token"),
 			ExpireIn:    consts.GtokenExpireIn, //单位秒
 			IsAdmin:     adminInfo.IsAdmin,
 			RoleIds:     adminInfo.RoleIds,
 			Permissions: permissions,
+		}
+		response.JsonExit(r, 0, "", data)
+	}
+
+}
+
+// 自定义登录之后的函数 for前台项目
+func loginAfterFuncFrontend(r *ghttp.Request, respData gtoken.Resp) {
+	if !respData.Success() {
+		respData.Code = 0
+		r.Response.WriteJson(respData)
+		return
+	} else {
+		respData.Code = 1
+		//获得登录用户id
+		userKey := respData.GetString("userKey")
+		userId := gstr.StrEx(userKey, consts.GtokenFrontendPrefix) //去掉userKey中的consts.GtokenFrontendPrefix
+		g.Dump("UserId:", userId)
+		//根据id获得登录用户其他信息
+		userInfo := entity.UserInfo{}
+		err := dao.UserInfo.Ctx(context.TODO()).WherePri(userId).Scan(&userInfo)
+		if err != nil {
+			return
+		}
+		data := &frontend.LoginRes{
+			Type:     consts.TokenType,
+			Token:    respData.GetString("token"),
+			ExpireIn: consts.GtokenExpireIn, //单位秒
+			Name:     userInfo.Name,
+			Avatar:   userInfo.Avatar,
+			Sex:      uint8(userInfo.Sex),
+			Sign:     userInfo.Sign,
+			Status:   uint8(userInfo.Status),
 		}
 		response.JsonExit(r, 0, "", data)
 	}

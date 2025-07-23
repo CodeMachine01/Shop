@@ -19,7 +19,7 @@ func New() *sUser {
 	return &sUser{}
 }
 
-// 注册
+// 用户注册
 func (s *sUser) Register(ctx context.Context, in model.RegisterInput) (out model.RegisterOutput, err error) {
 	//处理加密盐和密码的逻辑
 	UserSalt := grand.S(10)
