@@ -51,3 +51,7 @@ type UserInfoBase struct {
 	Sign   string `json:"sign"`
 	Status uint8  `json:"status"`
 }
+
+// 修改密码
+type UpdatePasswordReq struct {
+}
