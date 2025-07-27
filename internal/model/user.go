@@ -19,3 +19,13 @@ type LoginInput struct {
 	Name     string
 	Password string
 }
+
+type UpdatePasswordInput struct {
+	Password     string
+	UserSalt     string
+	SecretAnswer string
+}
+
+type UpdatePasswordOutput struct {
+	Id uint
+}
