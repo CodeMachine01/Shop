@@ -6,6 +6,7 @@ import (
 	"Shop/internal/model"
 	"Shop/internal/service"
 	"context"
+	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/util/gconv"
 )
 
@@ -93,4 +94,35 @@ func (*sCollection) GetList(ctx context.Context, in model.CollectionListInput) (
 		}
 	}
 	return
+}
+
+// 抽取获得收藏数量的方法 for 商品详情&文章详情
+func CollectionCount(ctx context.Context, objectId uint, collectionType uint8) (count int, err error) {
+	condition := g.Map{
+		dao.CollectionInfo.Columns().ObjectId: objectId,
+		dao.CollectionInfo.Columns().Type:     collectionType,
+	}
+	count, err = dao.CollectionInfo.Ctx(ctx).Where(condition).Count()
+	if err != nil {
+		return 0, err
+	}
+	return
+}
+
+// 抽取方法 判断当前用户是否收藏 for 商品详情&文章详情
+func CheckIsCollect(ctx context.Context, in model.CheckIsCollectionInput) (bool, error) {
+	condition := g.Map{
+		dao.CollectionInfo.Columns().UserId:   ctx.Value(consts.CtxUserId),
+		dao.CollectionInfo.Columns().ObjectId: in.ObjectId,
+		dao.CollectionInfo.Columns().Type:     in.Type,
+	}
+	count, err := dao.CollectionInfo.Ctx(ctx).Where(condition).Count()
+	if err != nil {
+		return false, err
+	}
+	if count > 0 {
+		return true, nil
+	} else {
+		return false, nil
+	}
 }
