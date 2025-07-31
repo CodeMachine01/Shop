@@ -1,6 +1,9 @@
 package model
 
-import "Shop/internal/model/entity"
+import (
+	"Shop/internal/model/do"
+	"Shop/internal/model/entity"
+)
 
 // GoodsCreateUpdateBase 创建/修改内容基类
 type GoodsCreateUpdateBase struct {
@@ -56,5 +59,16 @@ type GoodsGetListOutputItem struct {
 	//Status    uint8       `json:"status"`
 	//CreatedAt *gtime.Time `json:"created_at"` // 创建时间
 	//UpdatedAt *gtime.Time `json:"updated_at"` // 修改时间
+}
 
+type GoodsDetailInput struct {
+	Id uint
+}
+
+// todo 替换从do层的模型结构体
+type GoodsDetailOutput struct {
+	do.GoodsInfo
+	Options   []do.GoodsOptionsInfo `orm:"with:goods_id=id"` //规格 sku
+	Comments  []do.CommentInfo      `orm:"with:object_id=id, where:type=1"`
+	IsCollect bool
 }
