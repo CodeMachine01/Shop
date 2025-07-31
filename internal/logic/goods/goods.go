@@ -1,13 +1,16 @@
 package position
 
 import (
+	"Shop/internal/consts"
 	"Shop/internal/dao"
+	"Shop/internal/logic/collection"
 	"Shop/internal/model"
 	"Shop/internal/model/entity"
 	"Shop/internal/service"
 	"context"
 	"github.com/gogf/gf/v2/encoding/ghtml"
 	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/util/gconv"
 )
 
 type sGoods struct{}
@@ -89,5 +92,10 @@ func (*sGoods) Detail(ctx context.Context, in model.GoodsDetailInput) (out model
 	if err != nil {
 		return model.GoodsDetailOutput{}, err
 	}
+	out.IsCollect, err = collection.CheckIsCollect(ctx, model.CheckIsCollectionInput{
+		UserId:   gconv.Uint(ctx.Value(consts.CtxUserId)),
+		ObjectId: in.Id,
+		Type:     consts.CollectionTypeGoods,
+	})
 	return
 }

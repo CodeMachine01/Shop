@@ -68,7 +68,8 @@ type GoodsDetailInput struct {
 // todo 替换从do层的模型结构体
 type GoodsDetailOutput struct {
 	do.GoodsInfo
-	Options   []do.GoodsOptionsInfo `orm:"with:goods_id=id"` //规格 sku
-	Comments  []do.CommentInfo      `orm:"with:object_id=id, where:type=1"`
+	Options []do.GoodsOptionsInfo `orm:"with:goods_id=id"` //规格 sku
+	//Comments  []do.CommentInfo      `orm:"with:object_id=id, where:type=1"`
+	Comments  []*CommentBase `orm:"with:object_id=id, where:type=1"`
 	IsCollect bool
 }

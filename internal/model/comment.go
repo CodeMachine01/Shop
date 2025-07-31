@@ -1,6 +1,7 @@
 package model
 
 import (
+	"Shop/internal/model/do"
 	"github.com/gogf/gf/v2/os/gtime"
 )
 
@@ -58,4 +59,9 @@ type CheckIsCommentInput struct {
 	UserId   uint
 	ObjectId uint
 	Type     uint8
+}
+
+type CommentBase struct {
+	do.CommentInfo
+	User UserInfoBase `json:"user" orm:"with:id=user_id"`
 }
